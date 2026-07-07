@@ -1,0 +1,170 @@
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Arial, Helvetica, sans-serif;
+}
+
+body{
+  background:#eef3ff;
+}
+
+.container{
+  width:90%;
+  max-width:1100px;
+  margin:40px auto;
+  background:white;
+  padding:30px;
+  border-radius:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
+}
+
+h1{
+  text-align:center;
+  color:#2563eb;
+}
+
+.subtitle{
+  text-align:center;
+  color:#666;
+  margin:15px 0 30px;
+}
+
+h3{
+  margin-top:20px;
+  margin-bottom:8px;
+}
+
+input,
+textarea{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #ccc;
+  font-size:15px;
+}
+
+textarea{
+  min-height:180px;
+  resize:vertical;
+}
+
+button{
+  width:100%;
+  margin-top:25px;
+  padding:15px;
+  border:none;
+  border-radius:10px;
+  background:#2563eb;
+  color:white;
+  font-size:18px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+.dashboard{
+  margin-top:40px;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+  gap:20px;
+}
+
+.score-card{
+  grid-column:1/-1;
+  background:white;
+  padding:25px;
+  border-radius:15px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+  text-align:center;
+}
+
+.score-card h1{
+  font-size:60px;
+  margin:15px 0;
+  color:#2563eb;
+}
+
+.progress{
+  width:100%;
+  height:20px;
+  background:#ddd;
+  border-radius:50px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  background:#22c55e;
+  transition:.5s;
+}
+
+.card{
+  background:white;
+  border-radius:15px;
+  padding:20px;
+  box-shadow:0 5px 15px rgba(0,0,0,.1);
+}
+
+.card h2{
+  color:#2563eb;
+  margin-bottom:15px;
+}
+
+.card ul{
+  padding-left:20px;
+}
+
+.card li{
+  margin-bottom:10px;
+}
+
+.recommendation{
+  grid-column:1/-1;
+  background:#2563eb;
+  color:white;
+  text-align:center;
+  padding:25px;
+  border-radius:15px;
+  font-size:22px;
+  box-shadow:0 5px 15px rgba(0,0,0,.15);
+}
+.loading-box{
+    margin-top:20px;
+    padding:20px;
+    background:#ecfdf5;
+    border:1px solid #86efac;
+    border-radius:12px;
+    text-align:center;
+    animation: pulse 1.5s infinite;
+}
+
+.loading-box h3{
+    color:#15803d;
+    margin-bottom:8px;
+}
+
+.loading-box p{
+    color:#555;
+    margin:0;
+}
+
+@keyframes pulse{
+    0%{
+        opacity:0.7;
+    }
+    50%{
+        opacity:1;
+    }
+    100%{
+        opacity:0.7;
+    }
+}
+.footer{
+    text-align:center;
+    margin-top:40px;
+    color:#777;
+    font-size:14px;
+}
