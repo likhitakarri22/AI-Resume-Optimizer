@@ -42,7 +42,7 @@ function App() {
     try {
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/upload",
+        "https://ai-resume-optimizer-dqf3.onrender.com/upload",
         formData
       );
 
@@ -75,7 +75,7 @@ function App() {
     try {
 
       const response = await axios.post(
-        "http://127.0.0.1:8000/rewrite",
+        "https://ai-resume-optimizer-dqf3.onrender.com/rewrite",
         formData
       );
 
