@@ -17,9 +17,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "http://localhost:5173",
-        "https://ai-resume-optimizer-azure.vercel.app"
-    ],
+    "http://localhost:5173",
+    "https://ai-resume-optimizer-azure.vercel.app"
+],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -67,6 +67,7 @@ async def upload_resume(
 
     for page in reader.pages:
         text = page.extract_text()
+
         if text:
             resume_text += text
 
@@ -78,7 +79,9 @@ async def upload_resume(
             extension = ".png"
 
         with tempfile.NamedTemporaryFile(delete=False, suffix=extension) as img:
+
             img.write(await jd_image.read())
+
             image_path = img.name
 
         job_description = extract_jd_from_image(image_path)
@@ -113,27 +116,25 @@ Format:
 Return ONLY JSON.
 """
 
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+    )
+
     try:
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-        )
+        analysis = json.loads(response.text)
 
-        cleaned = response.text.replace("```json", "").replace("```", "").strip()
-
-        analysis = json.loads(cleaned)
-
-    except Exception as e:
+    except Exception:
 
         analysis = {
-            "score": 0,
-            "matching_skills": [],
-            "missing_skills": [],
-            "strengths": [],
-            "weaknesses": [],
-            "suggestions": [f"Error: {str(e)}"],
-            "recommendation": "Unable to Parse"
+            "score":0,
+            "matching_skills":[],
+            "missing_skills":[],
+            "strengths":[],
+            "weaknesses":[],
+            "suggestions":[response.text],
+            "recommendation":"Unable to Parse"
         }
 
     return analysis
@@ -145,7 +146,9 @@ async def rewrite_resume(
 ):
 
     with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as temp_file:
+
         temp_file.write(await file.read())
+
         resume_path = temp_file.name
 
     reader = PdfReader(resume_path)
@@ -153,8 +156,11 @@ async def rewrite_resume(
     resume_text = ""
 
     for page in reader.pages:
+
         text = page.extract_text()
+
         if text:
+
             resume_text += text
 
     prompt = f"""
@@ -195,19 +201,11 @@ Resume:
 {resume_text}
 """
 
-    try:
+    response = client.models.generate_content(
+        model="gemini-2.5-flash",
+        contents=prompt,
+    )
 
-        response = client.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-        )
-
-        return {
-            "resume": response.text
-        }
-
-    except Exception as e:
-
-        return {
-            "resume": f"Gemini is temporarily busy.\n\nPlease try again in a minute.\n\nError: {str(e)}"
-        }
+    return {
+        "resume": response.text
+    }
