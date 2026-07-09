@@ -17,9 +17,9 @@ app = FastAPI()
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-    "http://localhost:5173",
-    "https://ai-resume-optimizer-azure.vercel.app"
-],
+        "http://localhost:5173",
+        "https://ai-resume-optimizer-azure.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -121,20 +121,33 @@ Return ONLY JSON.
         contents=prompt,
     )
 
+    text = response.text.strip()
+
+    if text.startswith("```json"):
+        text = text.replace("```json", "", 1)
+
+    if text.startswith("```"):
+        text = text.replace("```", "", 1)
+
+    if text.endswith("```"):
+        text = text[:-3]
+
+    text = text.strip()
+
     try:
 
-        analysis = json.loads(response.text)
+        analysis = json.loads(text)
 
     except Exception:
 
         analysis = {
-            "score":0,
-            "matching_skills":[],
-            "missing_skills":[],
-            "strengths":[],
-            "weaknesses":[],
-            "suggestions":[response.text],
-            "recommendation":"Unable to Parse"
+            "score": 0,
+            "matching_skills": [],
+            "missing_skills": [],
+            "strengths": [],
+            "weaknesses": [],
+            "suggestions": [text],
+            "recommendation": "Unable to Parse"
         }
 
     return analysis
